@@ -1,20 +1,21 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import Starter from './components/Starter/Starter'
-
+import { useState } from 'react';
+import './App.css';
+import Starter from './components/Starter/Starter';
+import SignInUpForm from './components/signupin/sign';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   return (
-    <>
-    <div className='body'>
-      <Starter/>
-      </div>
-    </>
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={<Navigate to="/start" />} />
+        <Route path="/start" element={<Starter />} />
+        <Route path="/sign" element={<SignInUpForm />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
