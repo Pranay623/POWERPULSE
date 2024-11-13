@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import * as Component from '../signupin/component.jsx';
+import '../signupin/sign.css'
 
 function SignInUpForm(){
   const [signin, toggle] = useState(true); // ensure `signin` is used consistently
   return(
+    <div className='body'>
     <Component.Container className='container'>
       <Component.SignUpContainer signinIn={signin}>
         <Component.Form>
@@ -20,8 +22,8 @@ function SignInUpForm(){
           <Component.Title>Sign in</Component.Title>
           <Component.Input type='email' placeholder='Email' />
           <Component.Input type='password' placeholder='Password' />
-          <Component.Anchor href='#'>Forgot your password?</Component.Anchor>
-          <Component.Button>Sign In</Component.Button>
+          <Component.Button className='signin'>Sign In</Component.Button>
+          {/* <Component.Anchor href='#'>Forgot your password?</Component.Anchor> */}
         </Component.Form>
       </Component.SignInContainer>
 
@@ -48,7 +50,7 @@ function SignInUpForm(){
           </Component.RightOverlayPanel>
         </Component.Overlay>
       </Component.OverlayContainer>
-    </Component.Container>
+    </Component.Container></div>
   )
 }
 

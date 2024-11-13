@@ -30,6 +30,13 @@ const Starter = () => {
           <img src={outf} className='bg-forest'></img>
           
         </div>
+        <div className='button'>
+          <a href='/sign'>
+            <span>LET'S GO</span>
+            <div className='wave'></div>
+          </a>
+        </div>
+        
     </div>
   )
 }

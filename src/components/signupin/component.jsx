@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-background-color: #fff;
+  background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   position: absolute;
@@ -34,7 +34,7 @@ export const SignUpContainer = styled.div`
 
 export const SignInContainer = styled.div`
 position: absolute;
-top: 0;
+top: rem;
 height: 100%;
 transition: all 0.6s ease-in-out;
 left: 0;
@@ -70,8 +70,8 @@ width: 100%;
 
 export const Button = styled.button`
    border-radius: 20px;
-   border: 1px solid #ff4b2b;
-   background-color: #ff4b2b;
+   border: 1px solid #4a75c2;
+   background-color: #4a75c2;
    color: #ffffff;
    font-size: 12px;
    font-weight: bold;
@@ -92,10 +92,11 @@ border-color: #ffffff;
 `;
 
 export const Anchor = styled.a`
-color: #333;
-font-size: 14px;
-text-decoration: none;
-margin: 15px 0;
+  color: #333;
+  font-size: 14px;
+  text-decoration: none;
+  margin-top: 1rem;
+  display: inline; 
 `;
 export const OverlayContainer = styled.div`
 position: absolute;
@@ -111,9 +112,7 @@ ${props =>
 `;
 
 export const Overlay = styled.div`
-background: #ff416c;
-background: -webkit-linear-gradient(to right, #ff4b2b, #ff416c);
-background: linear-gradient(to right, #ff4b2b, #ff416c);
+background: #4a73d1;
 background-repeat: no-repeat;
 background-size: cover;
 background-position: 0 0;
@@ -143,13 +142,13 @@ export const OverlayPanel = styled.div`
 `;
 
 export const LeftOverlayPanel = styled(OverlayPanel)`
-  left: -38px;
+
   transform: translateX(-20%);
   ${props => props.signinIn !== true ? `transform: translateX(0);` : null}
 `;
 
 export const RightOverlayPanel = styled(OverlayPanel)`
-    right: -38px;
+    right: -0px;
     transform: translateX(0);
     ${props => props.signinIn !== true ? `transform: translateX(20%);` : null}
 `;
