@@ -1,28 +1,119 @@
-.container {
+/* Main.css */
+.aqua-mitra-container {
     display: flex;
+    font-family: 'Arial', sans-serif;
+    color: #fff;
+    background-color: #2e6c87;
+}
+
+.sidebar {
+    width: 20%;
+    background: url('/path-to-blurred-background.jpg') no-repeat center center/cover;
+    padding: 20px;
+    text-align: center;
+    color: #fff;
+}
+
+.sidebar h1 {
+    font-size: 2rem;
+    margin-top: 50px;
+}
+
+.content {
+    width: 80%;
+    padding: 20px;
+    background-color: #377e93;
+}
+
+/* Reports Section */
+.reports-section {
+    margin-bottom: 20px;
+}
+
+.reports-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.report-item {
+    background-color: #4a9cad;
+    border-radius: 8px;
+    text-align: center;
+    padding: 15px;
+    font-size: 0.9rem;
+}
+
+/* Progress Section */
+.progress-section {
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    margin-bottom: 15px;
+}
+
+.progress {
+    background: #5ba6b6;
+    border-radius: 10px;
+    height: 10px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.progress-fill {
+    background: #87d4e0;
+    height: 100%;
+}
+
+/* Stats Section */
+.stats-section {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.stat-item {
+    text-align: center;
+    background-color: #4a9cad;
+    padding: 20px;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
-    height: 100vh;
-    text-align: center;
 }
 
-.locationBox {
-    padding: 20px;
-    border: 1px solid #ccc;
+/* Footer Section */
+.footer {
+    display: flex;
+    justify-content: space-around;
+    background-color: #377e93;
+    padding: 10px 0;
+}
+
+.location-item {
+    background-color: #5ba6b6;
+    padding: 10px;
     border-radius: 8px;
-    background-color: #f9f9f9;
-    width: 80%;
-    max-width: 400px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.loading {
-    font-size: 18px;
-    color: #888;
+.footer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background-color: #377e93; /* Optional: Add a background with transparency */
+    padding: 10px 15px; /* Add some padding for better spacing */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: Add a shadow for better visibility */
+    font-size: 14px; /* Adjust text size */
+    text-align: left; /* Align text to the left */
 }
 
-.error {
-    color: red;
-    margin-top: 20px;
+.circular-progress-wrapper {
+    width: 80px; /* Adjust size as needed */
+    height: 80px;
+    margin: 0 auto; /* Center horizontally */
 }

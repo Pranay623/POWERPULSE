@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../main/Main.css'; // Import the CSS file
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+
 
 const LocationBox = () => {
     const [city, setCity] = useState(null);
@@ -44,27 +46,27 @@ const LocationBox = () => {
     };
 
     // Function to fetch the population using the provided API
-    const fetchStatePopulation = async (city) => {
-        const apiKey = 'pkBvRnbBRq/m/b60RmCVtQ==fbaznAfwJTBRp4lQ'; 
-        try {
-            const response = await fetch(`https://api.api-ninjas.com/v1/city?name=${city}`, {
-                headers: {
-                    'X-Api-Key': apiKey
-                }
-            });
-            const data = await response.json();
+    // const fetchStatePopulation = async (city) => {
+    //     const apiKey = 'pkBvRnbBRq/m/b60RmCVtQ==fbaznAfwJTBRp4lQ'; 
+    //     try {
+    //         const response = await fetch(`https://api.api-ninjas.com/v1/city?name=${city}`, {
+    //             headers: {
+    //                 'X-Api-Key': apiKey
+    //             }
+    //         });
+    //         const data = await response.json();
             
-            if (data && data.length > 0) {
-                const population = data[0].population; 
-                setStatePopulation(population);
-            } else {
-                setStatePopulation('Unknown');
-            }
-        } catch (error) {
-            console.error('Error fetching state population:', error);
-            setStatePopulation('Unable to fetch state population');
-        }
-    };
+    //         if (data && data.length > 0) {
+    //             const population = data[0].population; 
+    //             setStatePopulation(population);
+    //         } else {
+    //             setStatePopulation('Unknown');
+    //         }
+    //     } catch (error) {
+    //         console.error('Error fetching state population:', error);
+    //         setStatePopulation('Unable to fetch state population');
+    //     }
+    // };
 
     const handleGeolocationSuccess = (pos) => {
         const { latitude, longitude } = pos.coords;
@@ -117,35 +119,74 @@ const LocationBox = () => {
         navigator.geolocation.getCurrentPosition(handleGeolocationSuccess, handleGeolocationError, options);
     }, []);
 
-    return (
-        <div className="container">
-            <div className="locationBox">
-                <h3>City:</h3>
-                <p>{city || 'Loading city...'}</p>
-            </div>
-            <div className="locationBox">
-                <h3>State:</h3>
-                <p>{state || 'Loading state...'}</p>
-            </div>
-            <div className="locationBox">
-                <h3>Country:</h3>
-                <p>{country || 'Loading country...'}</p>
-            </div>
-            {weather && (
-                <div className="weatherBox">
-                    <h3>Weather:</h3>
-                    <p>Temperature: {weather.temperature}°C</p>
-                </div>
-            )}
-            {statePopulation && (
-                <div className="populationBox">
-                    <h3>State Population:</h3>
-                    <p>{statePopulation}</p>
-                </div>
-            )}
-            {errorMessage && <p className="error">{errorMessage}</p>}
-        </div>
-    );
-};
+    const calculateTemperaturePercentage = (temp) => {
+        if (temp === null) return 0;
+        const maxTemp = 50; // Maximum temperature for 100%
+        return Math.min((temp / maxTemp) * 100, 100); // Calculate percentage
+    };
 
+    const calculatePopulationPercentage = (population) => {
+        if (population === null) return 0;
+        const maxPopulation = 10000000; // Example max population for 100%
+        return Math.min((population / maxPopulation) * 100, 100); // Calculate percentage
+    };
+
+
+    return (
+        <div className="aqua-mitra-container">
+        {/* Left panel */}
+        <div className="sidebar">
+            <h1>AquaMitra</h1>
+        </div>
+
+        {/* Main content */}
+        <div className="content">
+            {/* Reports Section */}
+            <section className="reports-section">
+                <h2>Reports</h2>
+                <div className="reports-grid">
+                    <div className="report-item">
+                        <h3>Temperature</h3>
+                        <p>{weather?.temperature ? `${weather.temperature}°C` : 'Loading...'}</p>
+                        <CircularProgressbar className='circular-progress-wrapper'
+                            value={calculateTemperaturePercentage(weather?.temperature)}
+                            text={`${calculateTemperaturePercentage(weather?.temperature).toFixed(0)}%`}
+                            styles={buildStyles({
+                                textColor: '#fff',
+                                pathColor: '#80D1E5',
+                                trailColor: '#0C5263',
+                                strokeLinecap: 'round',
+                            })}
+                        />
+                    </div>
+                    <div className="report-item">
+                        <h3>Population</h3>
+                        <p>{statePopulation !== null ? statePopulation : 'Loading...'}</p>
+                        <CircularProgressbar className='circular-progress-wrapper'
+                            value={calculatePopulationPercentage(statePopulation)}
+                            text={`${calculatePopulationPercentage(statePopulation).toFixed(0)}%`}
+                            styles={buildStyles({
+                                textColor: '#fff',
+                                pathColor: '#80D1E5',
+                                trailColor: '#0C5263',
+                                strokeLinecap: 'round',
+                            })}
+                        />
+                    </div>
+                </div>
+            </section>
+            <div>
+              
+            </div>
+
+            {/* Footer Section */}
+            <footer className="footer">
+                <div className="location-item">{city || 'City: Loading...'}</div>
+                <div className="location-item">{state || 'State: Loading...'}</div>
+                <div className="location-item">{country || 'Country: Loading...'}</div>
+            </footer>
+        </div>
+    </div>
+);
+};
 export default LocationBox;

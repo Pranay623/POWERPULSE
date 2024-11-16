@@ -7,11 +7,17 @@ export const Container = styled.div`
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%); /* Center the element */
+  transform: translate(-50%, -50%);
   overflow: hidden;
-  width: 800px; /* Increased width */
+  width: 800px; /* Adjust width as needed */
   max-width: 90%;
-  min-height: 500px; /* Increased height */
+  height: 50vh; /* Let the content decide height */
+  min-height: 300px; /* Adjust the minimum height */
+  padding: 20px; /* Optional: Add padding for better spacing inside the box */
+  display: flex; /* Ensures content stays aligned if needed */
+  flex-direction: column; /* Stack content vertically */
+  align-items: center;
+  justify-content: center;
 `;
 
 export const SignUpContainer = styled.div`
