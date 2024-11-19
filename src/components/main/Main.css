@@ -34,6 +34,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
+    margin: 10px;
 }
 
 .report-item {
@@ -113,7 +114,17 @@
 }
 
 .circular-progress-wrapper {
-    width: 80px; /* Adjust size as needed */
-    height: 80px;
+    width: 230px;  /* Adjust the size of the circular progress bar */
+    height: 230px; /* Keep the circle perfectly round */
     margin: 0 auto; /* Center horizontally */
+    position: relative;  /* Make sure the content is aligned correctly */
+}
+
+.circular-progress-wrapper .react-circular-progressbar {
+    width: 100%;  /* Make progress bar take full width of its container */
+    height: 100%; /* Make progress bar take full height of its container */
+}
+
+.likho{
+    margin-top: 12rem;
 }

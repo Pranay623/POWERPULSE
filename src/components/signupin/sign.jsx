@@ -45,6 +45,8 @@ function SignInUpForm() {
       const data = await response.json();
       if (response.ok) {
         console.log("Sign-in successful:", data);
+        const setItem = localStorage.setItem("userID",JSON.stringify(data.userId))
+        console.log(setItem)
         navigate('/main');
       } else {
         console.error("Sign-in failed:", data.message);
