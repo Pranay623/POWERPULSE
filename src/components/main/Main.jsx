@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../main/Main.css'; // Import the CSS file
+import '../main/Main.css'; 
 import { CircularProgressbarWithChildren, buildStyles } from "react-circular-progressbar";
 
 
@@ -88,27 +88,27 @@ const LocationBox = () => {
     };
 
     // Function to fetch the population using the provided API
-    // const fetchStatePopulation = async (city) => {
-    //     const apiKey = 'pkBvRnbBRq/m/b60RmCVtQ==fbaznAfwJTBRp4lQ'; 
-    //     try {
-    //         const response = await fetch(`https://api.api-ninjas.com/v1/city?name=${city}`, {
-    //             headers: {
-    //                 'X-Api-Key': apiKey
-    //             }
-    //         });
-    //         const data = await response.json();
+    const fetchStatePopulation = async (city) => {
+        const apiKey = 'pkBvRnbBRq/m/b60RmCVtQ==fbaznAfwJTBRp4lQ'; 
+        try {
+            const response = await fetch(`https://api.api-ninjas.com/v1/city?name=${city}`, {
+                headers: {
+                    'X-Api-Key': apiKey
+                }
+            });
+            const data = await response.json();
             
-    //         if (data && data.length > 0) {
-    //             const population = data[0].population; 
-    //             setStatePopulation(population);
-    //         } else {
-    //             setStatePopulation('Unknown');
-    //         }
-    //     } catch (error) {
-    //         console.error('Error fetching state population:', error);
-    //         setStatePopulation('Unable to fetch state population');
-    //     }
-    // };
+            if (data && data.length > 0) {
+                const population = data[0].population; 
+                setStatePopulation(population);
+            } else {
+                setStatePopulation('Unknown');
+            }
+        } catch (error) {
+            console.error('Error fetching state population:', error);
+            setStatePopulation('Unable to fetch state population');
+        }
+    };
     const handleManualSearch = async () => {
         try {
             const response = await fetch(
@@ -124,7 +124,8 @@ const LocationBox = () => {
                 setState(locationParts[1] || 'Unknown');
                 setCountry(locationParts[2] || 'Unknown');
                 await fetchWeatherData(locationParts[0]);
-                saveHistoryToBackend(setCity,setState,setCountry,weather); 
+                await fetchStatePopulation(locationParts[0]);
+                saveHistoryToBackend(setCity,setState,setCountry); 
                 setIsModalOpen(false); 
             } else {
                 setErrorMessage('Location not found');
@@ -191,6 +192,7 @@ const LocationBox = () => {
             state,
             country,
             weather,
+            population : statePopulation,
         };
     
         try {
@@ -211,14 +213,6 @@ const LocationBox = () => {
             console.error('Error saving history to backend:', error);
         }
     };
-    
-    // Fetch userID from localStorage on component mount
-    // useEffect(() => {
-    //     const storedUserId = localStorage.getItem('userID');
-    //     if (storedUserId) {
-    //         setUserID(storedUserId); // Ensure state is set
-    //     }
-    // }, []);
     
 
     const fetchHistory = async () => {
@@ -250,6 +244,7 @@ const LocationBox = () => {
         setCity(historyItem.city);
         setState(historyItem.state);
         setCountry(historyItem.country);
+        setStatePopulation(historyItem.population);
         fetchWeatherData(historyItem.city);
     };
 
@@ -277,15 +272,41 @@ const LocationBox = () => {
 
     const calculateTemperaturePercentage = (temp) => {
         if (temp === null) return 0;
-        const maxTemp = 50; // Maximum temperature for 100%
-        return Math.min((temp / maxTemp) * 100, 100); // Calculate percentage
+        const maxTemp = 50; 
+        return Math.min((temp / maxTemp) * 100, 100); 
     };
 
     const calculatePopulationPercentage = (population) => {
-        if (population === null) return 0;
+        if (population === null) return 0;  
         const maxPopulation = 10000000; // Example max population for 100%
-        return Math.min((population / maxPopulation) * 100, 100); // Calculate percentage
+        return Math.min((population / maxPopulation) * 100, 100); 
     };
+
+    const handlePredictionRequest = async () => {
+        const requestData = {
+            temprature:weather,
+            population:statePopulation,
+        };
+    
+        try {
+            const response = await fetch('http://localhost:5001/user/predict', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(requestData)
+            });
+    
+            const data = await response.json();
+            if (response.ok) {
+                console.log('Prediction Result:', data);
+                // Handle the prediction data (display or use it in your app)
+            } else {
+                console.error('Prediction Error:', data.message);
+            }
+        } catch (error) {
+            console.error('Error making prediction request:', error);
+        }
+    };
+    
     
 
 
@@ -305,7 +326,7 @@ const LocationBox = () => {
                                         className="history-item"
                                         onClick={() => handleHistoryClick(item)}
                                     >
-                                        {item.city}, {item.state}, {item.country}
+                                        {item.city}, {item.state}, {item.country},{item.population}
                                     </li>
                                 ))}
                             </ul>
@@ -342,7 +363,7 @@ const LocationBox = () => {
                             </div>
                             <div className="report-item">
                                 <CircularProgressbarWithChildren className='circular-progress-wrapper'
-                                    value={statePopulation || 0}
+                                    value={calculatePopulationPercentage(statePopulation)} 
                                     styles={buildStyles({
                                         textColor: '#fff',
                                         pathColor: '#80D1E5',
