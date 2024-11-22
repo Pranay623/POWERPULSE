@@ -14,6 +14,12 @@ const LocationBox = () => {
     const [isModalOpen, setIsModalOpen] = useState(false); 
     const [history, setHistory] = useState([]); // State to store history
     const [userId, setUserId] = useState(null);
+    const [predictions, setPredictions] = useState({
+        waterConsumptionForecast: null,
+        waterAvailabilityPrediction: null,
+        waterReusePotential: null,
+        disasterReserve: null,
+    });
 
     useEffect(() => {
         const getItem = localStorage.getItem("userID");
@@ -50,9 +56,48 @@ const LocationBox = () => {
             }
         } catch (error) {
             console.error('Error during login:', error);
+            
         }
     };
-    
+
+    const handlePredictRequest = async () => {
+        const requestData = {
+            temperature: weather?.temperature,
+            population: statePopulation,
+        };
+
+        try {
+            const response = await fetch('http://localhost:5001/user/predict', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(requestData)
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                console.log('Prediction Result:', data);
+                setPredictions(data); // Save prediction data to state
+            } else {
+                console.error('Prediction Error:', data.message);
+            }
+        } catch (error) {
+            console.error('Error making prediction request:', error);
+            console.log('Sending prediction request with data:', requestData);
+
+        }
+    };
+
+    const calculatePercentage = (value, max) => {
+        if (value === null || value === undefined) return 0;
+        return Math.min((value / max) * 100, 100);
+    };
+
+    useEffect(() => {
+        if (weather && statePopulation) {
+            handlePredictRequest(); 
+        }
+    }, [weather, statePopulation]);
+
     const fetchLocationFromIP = async () => {
         try {
             const response = await fetch('https://ipinfo.io?token=34a38b89bec2bf');
@@ -284,7 +329,7 @@ const LocationBox = () => {
 
     const handlePredictionRequest = async () => {
         const requestData = {
-            temprature:weather,
+            temperature:weather,
             population:statePopulation,
         };
     
@@ -298,7 +343,12 @@ const LocationBox = () => {
             const data = await response.json();
             if (response.ok) {
                 console.log('Prediction Result:', data);
-                // Handle the prediction data (display or use it in your app)
+                setPredictions({
+                    waterConsumptionForecast: data.waterConsumptionForecast ? (data.waterConsumptionForecast / 100) : 0,
+                    waterAvailabilityPrediction: data.waterAvailabilityPrediction ? (data.waterAvailabilityPrediction / 10) : 0,
+    waterReusePotential: data.waterReusePotential ? (data.waterReusePotential / 10) : 0,
+    disasterReserve: data.disasterReserve ? (data.disasterReserve / 10) : 0,
+                });
             } else {
                 console.error('Prediction Error:', data.message);
             }
@@ -335,55 +385,95 @@ const LocationBox = () => {
                 </div>
             </div>
 
-                {/* Main content */}
                 <div className="content">
-                    {/* Reports Section */}
-                    <section className="reports-section">
-                        <h2>Reports</h2>
-                        <div className="reports-grid">
-                            <div className="report-item">
-                                <CircularProgressbarWithChildren
-                                    className="circular-progress-wrapper"
-                                    value={weather?.temperature || 0}
-                                    styles={buildStyles({
-                                        textColor: '#fff',
-                                        pathColor: '#80D1E5',
-                                        trailColor: '#0C5263',
-                                        strokeLinecap: 'round',
-                                    })}
-                                >
-                                    <div className='likho'><div style={{ fontSize: '20px', color: '#fff', textAlign: 'center' }}>
-                                        <strong>{weather?.temperature ? 'Temperature' : ''}</strong>
-                                    </div>
-                                    <div style={{ fontSize: '20px', color: '#fff', textAlign: 'center' }}>
-                                        <strong>{weather?.temperature ? `${weather.temperature}°C` : 'Loading...'}</strong>
-                                    </div></div>
-                                    
-                                </CircularProgressbarWithChildren>
+    {/* Reports Section */}
+    <section className="reports-section">
+        <h2>Reports</h2>
+        <div className="reports-grid">
+            <div className="report-item">
+                <CircularProgressbarWithChildren
+                    className="circular-progress-wrapper"
+                    value={weather?.temperature || 0}
+                    styles={buildStyles({
+                        textColor: '#fff',
+                        pathColor: '#80D1E5',
+                        trailColor: '#0C5263',
+                        strokeLinecap: 'round',
+                    })}
+                >
+                    <div className="likho">
+                        <div style={{ fontSize: '20px', color: '#fff', textAlign: 'center' }}>
+                            <strong>{weather?.temperature ? 'Temperature' : ''}</strong>
+                        </div>
+                        <div style={{ fontSize: '20px', color: '#fff', textAlign: 'center' }}>
+                            <strong>{weather?.temperature ? `${weather.temperature}°C` : 'Loading...'}</strong>
+                        </div>
+                    </div>
+                </CircularProgressbarWithChildren>
+            </div>
+            <div className="report-item">
+                <CircularProgressbarWithChildren
+                    className="circular-progress-wrapper"
+                    value={calculatePopulationPercentage(statePopulation)}
+                    styles={buildStyles({
+                        textColor: '#fff',
+                        pathColor: '#80D1E5',
+                        trailColor: '#0C5263',
+                        strokeLinecap: 'round',
+                    })}
+                >
+                    <div className="likho">
+                        <div style={{ fontSize: '14px', color: '#fff' }}>
+                            <strong>Population</strong>
+                        </div>
+                        <div style={{ fontSize: '18px', color: '#fff', marginTop: '5px' }}>
+                            {statePopulation !== null ? statePopulation : 'Loading...'}
+                        </div>
+                    </div>
+                </CircularProgressbarWithChildren>
+            </div>
+        </div>
+
+        {/* Prediction Cards */}
+        <div className="prediction-cards">
+            {[
+                { label: "Water Consumption", value: predictions.waterConsumptionForecast },
+                { label: "Water Availability", value: predictions.waterAvailabilityPrediction },
+                { label: "Water Reuse", value: predictions.waterReusePotential },
+                { label: "Disaster Reserve", value: predictions.disasterReserve },
+            ].map((item, index) => (
+                <div className="report-item" key={index}>
+                    <CircularProgressbarWithChildren
+                        value={item.value || 0}
+                        styles={buildStyles({
+                            textColor: '#fff',
+                            pathColor: '#80D1E5',
+                            trailColor: '#0C5263',
+                            strokeLinecap: 'round',
+                        })}
+                    >
+                        <div className="likho">
+                            <div style={{ fontSize: '14px', color: '#fff', textAlign: 'center' }}>
+                                <strong>{item.label}</strong>
                             </div>
-                            <div className="report-item">
-                                <CircularProgressbarWithChildren className='circular-progress-wrapper'
-                                    value={calculatePopulationPercentage(statePopulation)} 
-                                    styles={buildStyles({
-                                        textColor: '#fff',
-                                        pathColor: '#80D1E5',
-                                        trailColor: '#0C5263',
-                                        strokeLinecap: 'round',
-                                    })}
-                                >
-                                    <div className='likho'><div style={{ fontSize: '14px', color: '#fff' }}>
-                                        <strong>Population</strong>
-                                    </div>
-                                    <div style={{ fontSize: '18px', color: '#fff', marginTop: '5px' }}>
-                                        {statePopulation !== null ? statePopulation : 'Loading...'}
-                                    </div></div>
-                                    
-                                </CircularProgressbarWithChildren>
+                            <div style={{ fontSize: '18px', color: '#fff', textAlign: 'center' }}>
+                                {item.value !== null ? `${item.value}%` : 'Loading...'}
                             </div>
                         </div>
-                    </section>
+                    </CircularProgressbarWithChildren>
+                </div>
+            ))}
+        </div>
+    </section>
 
-                    {/* Footer Section */}
+    {/* Footer */}
+    <footer className="footer">
+        <button className="predict-button" onClick={handlePredictionRequest}>
+            Get Predictions
+        </button>
+    </footer>
+
+
                     <footer className="footer">
                         <div className="location-item">{city || 'City: Loading...'}</div>
                         <div className="location-item">{state || 'State: Loading...'}</div>
