@@ -42,7 +42,7 @@
             };
 
             try {
-                const response = await fetch('http://localhost:5001/user/predict', {
+                const response = await fetch('https://aqua-mitra-backend-1.onrender.com/user/predict', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(requestData)
@@ -208,7 +208,7 @@
             };
         
             try {
-                const response = await fetch('http://localhost:5001/user/save', {
+                const response = await fetch('https://aqua-mitra-backend-1.onrender.com/user/save', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(entry),
@@ -234,7 +234,7 @@
             }
 
             try {
-                const response = await fetch(`http://localhost:5001/user/get?userId=${userId}`);
+                const response = await fetch(`https://aqua-mitra-backend-1.onrender.com/user/get?userId=${userId}`);
                 const data = await response.json();
 
                 if (data.status === 'SUCCESS') {
@@ -312,7 +312,7 @@
             };
         
             try {
-                const response = await fetch('http://localhost:5001/user/predict', {
+                const response = await fetch('https://aqua-mitra-backend-1.onrender.com/user/predict', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(requestData)

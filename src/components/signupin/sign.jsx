@@ -16,7 +16,7 @@ function SignInUpForm() {
   const handleSignUp = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch('http://localhost:5001/user/signup', {
+      const response = await fetch('https://aqua-mitra-backend-1.onrender.com/user/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password }),
@@ -40,7 +40,7 @@ function SignInUpForm() {
   const handleSignIn = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch('http://localhost:5001/user/signin', {
+      const response = await fetch('https://aqua-mitra-backend-1.onrender.com/user/signin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: signinEmail, password: signinPassword }),
