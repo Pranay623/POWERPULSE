@@ -10,6 +10,7 @@ function SignInUpForm() {
   const [password, setPassword] = useState('');
   const [signinEmail, setSigninEmail] = useState('');
   const [signinPassword, setSigninPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const handleSignUp = async (event) => {
@@ -25,11 +26,14 @@ function SignInUpForm() {
       if (response.ok) {
         console.log("Signup successful:", data);
         toggle(true);
+        setErrorMessage('');
       } else {
         console.error("Signup failed:", data.message);
+        setErrorMessage(data.message || "Signup failed. Please try again.");
       }
     } catch (error) {
       console.error("Error signing up:", error);
+      setErrorMessage("An error occurred. Please try again later.");
     }
   };
 
@@ -43,16 +47,19 @@ function SignInUpForm() {
       });
       
       const data = await response.json();
-      if (response.ok) {
+      if (response.ok && data.userID) {
         console.log("Sign-in successful:", data);
-        const setItem = localStorage.setItem("userID",JSON.stringify(data.userId))
+        const setItem = localStorage.setItem("userID",JSON.stringify(data.userID))
         console.log(setItem)
         navigate('/main');
+        setErrorMessage(''); 
       } else {
         console.error("Sign-in failed:", data.message);
+        setErrorMessage(data.message || "Sign-in failed. Please check your credentials."); 
       }
     } catch (error) {
       console.error("Error signing in:", error);
+      setErrorMessage("An error occurred. Please try again later.");
     }
   };
 
@@ -67,6 +74,7 @@ function SignInUpForm() {
             <Component.Input type='email' placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} />
             <Component.Input type='password' placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} />
             <Component.Button type="submit">Sign Up</Component.Button>
+            {errorMessage && !signin && <p className="error-message">{errorMessage}</p>}
           </Component.Form>
         </Component.SignUpContainer>
 
@@ -76,6 +84,7 @@ function SignInUpForm() {
             <Component.Input type='email' placeholder='Email' value={signinEmail} onChange={(e) => setSigninEmail(e.target.value)} />
             <Component.Input type='password' placeholder='Password' value={signinPassword} onChange={(e) => setSigninPassword(e.target.value)} />
             <Component.Button type="submit" className='signin'>Sign In</Component.Button>
+            {errorMessage && signin && <p className="error-message">{errorMessage}</p>}
           </Component.Form>
         </Component.SignInContainer>
 
