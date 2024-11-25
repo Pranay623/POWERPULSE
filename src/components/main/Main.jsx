@@ -7,12 +7,12 @@
         const [city, setCity] = useState(null);
         const [state, setState] = useState(null);
         const [country, setCountry] = useState(null);
-        const [weather, setWeather] = useState(null); // State to hold weather data
-        const [statePopulation, setStatePopulation] = useState(null); // State to hold state population
+        const [weather, setWeather] = useState(null); 
+        const [statePopulation, setStatePopulation] = useState(null); 
         const [errorMessage, setErrorMessage] = useState('');
-        const [manualInput, setManualInput] = useState(''); // State to store manual input
+        const [manualInput, setManualInput] = useState(''); 
         const [isModalOpen, setIsModalOpen] = useState(false); 
-        const [history, setHistory] = useState([]); // State to store history
+        const [history, setHistory] = useState([]);
         const [userId, setUserId] = useState(null);
         const [predictions, setPredictions] = useState({
             waterConsumptionForecast: null,
@@ -25,7 +25,7 @@
             const getItem = localStorage.getItem("userID");
             if (getItem) {
                 try {
-                    const parsedUserId = JSON.parse(getItem); // Parse JSON string
+                    const parsedUserId = JSON.parse(getItem);   
                     console.log("Parsed userID:", parsedUserId);
                     setUserId(parsedUserId);
                 } catch (error) {
