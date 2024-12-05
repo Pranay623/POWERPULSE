@@ -1,0 +1,253 @@
+/* Full-screen container */
+.energy-consumption-container {
+    font-family: 'Arial', sans-serif;
+    color: #fff;
+    background-color: #2e6c87;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 100%;
+    height: 100vh; /* Occupy full screen height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+/* Header styles */
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.heading {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #80D1E5;
+    margin-bottom: 10px;
+}
+
+/* Input controls */
+.inputs {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.dropdown, .date-picker {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 48%;
+}
+
+label {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #f0f4f8;
+}
+
+select, input[type="date"] {
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+    background-color: #4a9cad;
+    color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+select:hover, input[type="date"]:hover {
+    background-color: #5fb3c7;
+}
+
+/* Button */
+.fetch-button {
+    background-color: #80D1E5;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    max-width: 200px;
+    margin: 0 auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.fetch-button:hover {
+    background-color: #6db8d3;
+}
+
+/* Error message */
+.error-message {
+    text-align: center;
+    color: #e53935;
+    font-weight: bold;
+    margin-top: 10px;
+    font-size: 1rem;
+}
+
+/* Predictions section */
+.predictions {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.prediction-header {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #80D1E5;
+    margin-bottom: 20px;
+}
+
+/* Bars and cards container */
+.bars-container {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    padding: 20px;
+    background-color: #28596a;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.progress-bar-container {
+    margin-bottom: 15px;
+    padding: 10px 0;
+    text-align: left;
+}
+
+.progress-bar-container strong {
+    display: block;
+    font-size: 1.2rem;
+    color: #f0f4f8;
+    margin-bottom: 5px;
+}
+
+.progress {
+    height: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #0C5263;
+}
+
+.progress-bar {
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    line-height: 20px;
+    border-radius: 10px;
+}
+
+/* Footer */
+footer {
+    margin-top: auto;
+    background-color: #0C5263;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    color: #fff;
+    font-size: 1rem;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.footer-item {
+    flex: 1;
+    text-align: center;
+}
+
+/* Cards container styling */
+.cards-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start; /* Align cards to the top */
+    gap: 30px; /* Space between the cards */
+    flex-wrap: wrap; /* Allows cards to wrap on smaller screens */
+    margin-top: 20px;
+}
+
+.report-card {
+    background-color: #0c5263;
+    border-radius: 10px;
+    padding: 20px;
+    width: 250px; /* Fixed width for cards */
+    min-height: 150px;
+    color: white;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.report-card:hover {
+    transform: scale(1.05); /* Slight scale effect on hover */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.report-card strong {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.report-card p {
+    font-size: 1.2rem;
+    margin: 0;
+    font-weight: bold;
+}
+
+/* Styling the bar inside the card (optional progress bar or indicator) */
+.report-card .progress-bar-container {
+    margin-top: 20px;
+}
+
+.report-card .progress {
+    height: 10px;
+    border-radius: 5px;
+    background-color: #3a7d94;
+}
+
+.report-card .progress-bar {
+    background-color: #5fa1b7;
+    width: 80%; /* Example width, this can be dynamically set */
+}
+
+/* Responsiveness for mobile */
+@media (max-width: 768px) {
+    .cards-container {
+        gap: 20px; /* Smaller gap on smaller screens */
+    }
+
+    .report-card {
+        width: 100%; /* Full width on smaller screens */
+        max-width: 300px; /* Max width for better spacing */
+    }
+}
+
+.divison {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px; /* Adds space between the button and the text */
+    margin-left: 34vw;
+    padding-top: 1rem;
+}
+
+/* Text styling */
+.text {
+    font-size: 2rem; /* Larger font size for better readability */
+    font-weight: bold;
+    color: #f0f4f8;
+    margin-top: 10px;
+    text-align: center;
+}

@@ -1,7 +1,7 @@
 import React from 'react'
 import bg from '../Starter/assests/4x/back.mp4'
 import '../Starter/Starter.css'
-import name from '../Starter/assests/name.svg'
+import name from '../Starter/assests/a.png'
 import outf from '../Starter/assests/4x/forest@4x.png'
 import outfp from '../Starter/assests/4x/forest path@4x.png'
 import outim from '../Starter/assests/4x/inner mountain@4x.png'

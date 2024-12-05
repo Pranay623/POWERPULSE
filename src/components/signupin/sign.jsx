@@ -51,7 +51,8 @@ function SignInUpForm() {
         console.log("Sign-in successful:", data);
         const setItem = localStorage.setItem("userID",JSON.stringify(data.userID))
         console.log(setItem)
-        navigate('/main');
+        // navigate('/main');
+        navigate('/electric');
         setErrorMessage(''); 
       } else {
         console.error("Sign-in failed:", data.message);
